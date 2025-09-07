@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Financial Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">Stock Analyzer</h1>
+            <p class="subtitle">Financial Health Checker</p>
+        </header>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-container">
+                <input type="text" id="tickerInput" placeholder="Enter stock ticker (e.g., AAPL)" class="ticker-input">
+                <button id="analyzeBtn" class="analyze-btn">Analyze Stock</button>
+            </div>
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing stock data...</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="results-section hidden">
+            <div class="stock-header">
+                <h2 id="stockTitle">Financial Health Analysis</h2>
+                <div class="score-container">
+                    <div id="scoreCircle" class="score-circle">
+                        <span id="scoreText">0/10</span>
+                    </div>
+                    <p id="scoreLabel" class="score-label">Financial Health Score</p>
+                </div>
+            </div>
+
+            <!-- Financial Health Checks Grid -->
+            <div class="checks-grid">
+                <!-- Left Column: Checks 1-5 -->
+                <div class="checks-column">
+                    <!-- Check 1: PE/PEG Ratio -->
+                    <div class="check-card" data-check="1">
+                        <div class="check-number">1</div>
+                        <div class="check-content">
+                            <h3>P/E < 25 || PEG < 1.0</h3>
+                            <p class="check-description">Valuation metrics</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 2: Revenue Growth -->
+                    <div class="check-card" data-check="2">
+                        <div class="check-number">2</div>
+                        <div class="check-content">
+                            <h3>Revenue Growth</h3>
+                            <p class="check-description">5-year increasing trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 3: Operating Income Growth -->
+                    <div class="check-card" data-check="3">
+                        <div class="check-number">3</div>
+                        <div class="check-content">
+                            <h3>Operating Income Growth</h3>
+                            <p class="check-description">5-year increasing trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 4: Net Income Growth -->
+                    <div class="check-card" data-check="4">
+                        <div class="check-number">4</div>
+                        <div class="check-content">
+                            <h3>Net Income Growth</h3>
+                            <p class="check-description">5-year increasing trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 5: Current Assets vs Liabilities -->
+                    <div class="check-card" data-check="5">
+                        <div class="check-number">5</div>
+                        <div class="check-content">
+                            <h3>Current Assets > Current Liabilities</h3>
+                            <p class="check-description">Liquidity position</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Checks 6-10 -->
+                <div class="checks-column">
+                    <!-- Check 6: Long-term Debt Ratio -->
+                    <div class="check-card" data-check="6">
+                        <div class="check-number">6</div>
+                        <div class="check-content">
+                            <h3>Long-term Debt/Net Profit < 4</h3>
+                            <p class="check-description">Debt management</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 7: Equity Growth -->
+                    <div class="check-card" data-check="7">
+                        <div class="check-number">7</div>
+                        <div class="check-content">
+                            <h3>Stockholders' Equity Growth</h3>
+                            <p class="check-description">5-year increasing trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 8: Shares Outstanding -->
+                    <div class="check-card" data-check="8">
+                        <div class="check-number">8</div>
+                        <div class="check-content">
+                            <h3>Shares Outstanding Decreasing</h3>
+                            <p class="check-description">Share buyback trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 9: Cash Flow Comparison -->
+                    <div class="check-card" data-check="9">
+                        <div class="check-number">9</div>
+                        <div class="check-content">
+                            <h3>Operating CF > Investing & Financing CF</h3>
+                            <p class="check-description">Cash flow strength</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+
+                    <!-- Check 10: Free Cash Flow Growth -->
+                    <div class="check-card" data-check="10">
+                        <div class="check-number">10</div>
+                        <div class="check-content">
+                            <h3>Free Cash Flow Growth</h3>
+                            <p class="check-description">5-year increasing trend</p>
+                        </div>
+                        <div class="check-result">
+                            <span class="result-icon">❌</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Analysis Section -->
+            <div class="detailed-analysis">
+                <h3>Detailed Financial Data</h3>
+                <div id="detailedData" class="detailed-data">
+                    <!-- Detailed financial data will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div id="errorSection" class="error-section hidden">
+            <div class="error-message">
+                <h3>Analysis Error</h3>
+                <p id="errorText">Unable to analyze the stock. Please check the ticker symbol and try again.</p>
+                <button id="retryBtn" class="retry-btn">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
